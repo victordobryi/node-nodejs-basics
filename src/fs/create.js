@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export const create = async () => {
   if (fs.existsSync('./files/fresh.txt')) {
     throw new Error('File already exists');
