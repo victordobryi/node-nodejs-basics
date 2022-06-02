@@ -1,3 +1,6 @@
 export const parseEnv = () => {
-    // Write your code here 
+  const values = process.env;
+  for (let value in values) {
+    value.startsWith('RSS_') ? console.log(`${value}=${values[value]}`) : null;
+  }
 };
