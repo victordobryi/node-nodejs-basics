@@ -1,8 +1,13 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const remove = async () => {
-  if (fs.existsSync('./files/fileToRemove.txt')) {
-    fs.unlink('./files/fileToRemove.txt', (err) => {
+  if (fs.existsSync(__dirname + '/files/fileToRemove.txt')) {
+    fs.unlink(__dirname + '/files/fileToRemove.txt', (err) => {
       if (err) {
         throw new Error(err.message, 'err');
       }
@@ -11,3 +16,5 @@ export const remove = async () => {
     throw new Error('File "fileToRemove.txt" is missing ');
   }
 };
+
+remove();
