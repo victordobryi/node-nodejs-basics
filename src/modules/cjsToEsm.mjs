@@ -13,7 +13,7 @@ const random = Math.random();
 let unknownObject;
 
 if (random > 0.5) {
-  readFile(__dirname + '/files/a.json', 'utf-8', (err, data) => {
+  readFile('./files/a.json', 'utf-8', (err, data) => {
     if (err) {
       throw new Error(err.message);
     } else {
@@ -21,7 +21,7 @@ if (random > 0.5) {
     }
   });
 } else {
-  readFile(__dirname + '/files/b.json', 'utf-8', (err, data) => {
+  readFile('./files/b.json', 'utf-8', (err, data) => {
     if (err) {
       throw new Error(err.message);
     } else {
