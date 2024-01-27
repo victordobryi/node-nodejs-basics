@@ -13,4 +13,11 @@ const read = async () => {
   }
 };
 
+console.log('Start reading file...');
+const startTime = Date.now();
+
 await read();
+
+const endTime = Date.now();
+
+console.log(`File read operation completed in ${(endTime - startTime) / 1000} seconds.`);
