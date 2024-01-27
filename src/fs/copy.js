@@ -1,41 +1,44 @@
+import fs from 'fs/promises';
+import { getAbsPath } from '../utils/getAbsPath.js';
+
 const copy = async () => {
-  // Write your code here
+  try {
+    console.log('Starting file copy process...');
+
+    const filesPath = getAbsPath(import.meta.url, '/files');
+    const filesCopyPath = getAbsPath(import.meta.url, '/files_copy');
+
+    console.log(`Source directory: ${filesPath}`);
+    console.log(`Destination directory: ${filesCopyPath}`);
+
+    await fs.access(filesPath);
+
+    try {
+      await fs.access(filesCopyPath);
+      throw new Error(`FS operation failed: '${filesCopyPath}' already exists.`);
+    } catch (error) {
+      console.log(`Destination directory does not exist. Creating...`);
+      await fs.mkdir(filesCopyPath);
+      console.log(`Destination directory created: ${filesCopyPath}`);
+    }
+
+    const files = await fs.readdir(filesPath);
+
+    for (const file of files) {
+      try {
+        console.log(`Copying file: ${sourceFile} to ${destinationFile}`);
+        await fs.copyFile(`${filesPath}/${file}`, `${filesCopyPath}/${file}`);
+        console.log(`File copied successfully: ${file}`);
+      } catch (err) {
+        throw new Error(`Copyfile error: ${err.message}`);
+      }
+    }
+
+    console.log('File copy process completed.');
+    console.log('List of copied files:', files);
+  } catch (err) {
+    console.log(`FS operation failed : ${err}`);
+  }
 };
 
 await copy();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const copy = async () => {
-//   if (fs.existsSync(`${__dirname + '/files_copy/'}`)) {
-//     throw new Error('File already exists');
-//   } else {
-//     fs.mkdir(`${__dirname + '/files_copy/'}`, (err) => {
-//       if (err) {
-//         throw new Error(err.message);
-//       }
-//     });
-//   }
-//   fs.readdir(`${__dirname + '/files'}`, (err, files) => {
-//     if (err) {
-//       throw new Error(err.message);
-//     } else {
-//       files.map((file) => {
-//         fs.copyFile(__dirname + `/files/${file}`, __dirname + `/files_copy/${file}`, (err) => {
-//           if (err) {
-//             throw new Error(err.message);
-//           }
-//         });
-//       });
-//     }
-//   });
-// };
-
-// copy();
