@@ -1,26 +1,51 @@
+import fs from 'fs/promises';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import path from 'path';
+
 const list = async () => {
-  // Write your code here
+  const fileNames = [];
+  const listRecursive = async (currentPath = '/files') => {
+    try {
+      const filesPath = getAbsPath(import.meta.url, currentPath);
+
+      await fs.access(filesPath);
+
+      console.log(`Accessed path: ${filesPath}`);
+
+      const items = await fs.readdir(filesPath);
+
+      console.log(`Listed items in ${filesPath}: ${items.join(', ')}`);
+
+      for (const item of items) {
+        const itemPath = path.join(filesPath, item);
+
+        const isDirectory = (await fs.stat(itemPath)).isDirectory();
+
+        if (isDirectory) {
+          const currPath = `${currentPath}/${item}`;
+
+          console.log(`Entering directory: ${currPath}`);
+
+          await listRecursive(currPath);
+        } else {
+          fileNames.push(item);
+          console.log(`File found: ${item}`);
+        }
+      }
+    } catch (err) {
+      console.log(`FS operation failed : ${err}`);
+    }
+  };
+
+  await listRecursive();
+  console.log('\x1b[35m%s\x1b[0m', `File names: ${fileNames.join(', ')}`);
 };
+
+console.log('Start listing file...');
+const startTime = Date.now();
 
 await list();
 
-// CODE FROM NODEJS2022Q2
+const endTime = Date.now();
 
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const list = async () => {
-//   fs.readdir(__dirname + '/files', (err, files) => {
-//     if (err) {
-//       throw new Error(err.message);
-//     } else {
-//       console.log(files);
-//     }
-//   });
-// };
-
-// list();
+console.log(`File list operation completed in ${(endTime - startTime) / 1000} seconds.`);
