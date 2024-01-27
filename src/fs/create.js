@@ -1,28 +1,36 @@
+import fs from 'fs/promises';
+import path from 'path';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { FRESH_CONTENT, FRESH_FILE_NAME } from '../constants/fs.js';
+
 const create = async () => {
-  // Write your code here
+  try {
+    const folderPath = getAbsPath(import.meta.url, '/files');
+
+    try {
+      await fs.access(folderPath);
+      console.log(`Folder exists: ${folderPath}`);
+    } catch (err) {
+      console.log(`Folder not found, creating folder: ${folderPath}`);
+      await fs.mkdir(folderPath);
+      console.log(`Folder created: ${folderPath}`);
+    }
+
+    const filePath = path.join(folderPath, FRESH_FILE_NAME);
+
+    await fs.writeFile(filePath, FRESH_CONTENT);
+
+    console.log(`File created: ${filePath}`);
+  } catch (err) {
+    console.log(`FS operation failed : ${err}`);
+  }
 };
+
+console.log('Start creating file...');
+const startTime = Date.now();
 
 await create();
 
-// CODE FROM NODEJS2022Q2
+const endTime = Date.now();
 
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const create = async () => {
-//   if (fs.existsSync(`${__dirname + '/files/fresh.txt'}`)) {
-//     throw new Error('File already exists');
-//   } else {
-//     fs.writeFile(`${__dirname + '/files/fresh.txt'}`, 'I am fresh and young', (err) => {
-//       if (err) {
-//         throw new Error(err.message);
-//       }
-//     });
-//   }
-// };
-
-// create();
+console.log(`File creation completed in ${(endTime - startTime) / 1000} seconds.`);
