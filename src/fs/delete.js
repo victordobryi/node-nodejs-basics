@@ -1,28 +1,23 @@
+import fs from 'fs/promises';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { REMOVE_FILE_NAME } from '../constants/fs.js';
+
 const remove = async () => {
-  // Write your code here
+  const removeFilePath = getAbsPath(import.meta.url, `/files/${REMOVE_FILE_NAME}`);
+  try {
+    await fs.access(removeFilePath);
+    await fs.unlink(removeFilePath);
+    console.log(`File ${removeFilePath} has been deleted.`);
+  } catch (err) {
+    console.log(`FS operation failed : ${err}`);
+  }
 };
+
+console.log('Start deleting file...');
+const startTime = Date.now();
 
 await remove();
 
-// CODE FROM NODEJS2022Q2
+const endTime = Date.now();
 
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const remove = async () => {
-//   if (fs.existsSync(__dirname + '/files/fileToRemove.txt')) {
-//     fs.unlink(__dirname + '/files/fileToRemove.txt', (err) => {
-//       if (err) {
-//         throw new Error(err.message, 'err');
-//       }
-//     });
-//   } else {
-//     throw new Error('File "fileToRemove.txt" is missing ');
-//   }
-// };
-
-// remove();
+console.log(`File delete operation completed in ${(endTime - startTime) / 1000} seconds.`);

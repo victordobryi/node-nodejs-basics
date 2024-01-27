@@ -41,11 +41,11 @@ const copy = async () => {
   }
 };
 
-console.log('Start creating file...');
+console.log('Start coping file...');
 const startTime = Date.now();
 
 await copy();
 
 const endTime = Date.now();
 
-console.log(`File creation completed in ${(endTime - startTime) / 1000} seconds.`);
+console.log(`File copy operation completed in ${(endTime - startTime) / 1000} seconds.`);
