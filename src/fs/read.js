@@ -1,30 +1,16 @@
+import fs from 'fs/promises';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { READ_FILE_NAME } from '../constants/fs.js';
+
 const read = async () => {
-  // Write your code here
+  try {
+    const readFilePath = getAbsPath(import.meta.url, `/files/${READ_FILE_NAME}`);
+    await fs.access(readFilePath);
+    const fileContent = await fs.readFile(readFilePath, 'utf-8');
+    console.log('File content:', fileContent);
+  } catch (err) {
+    console.log(`FS operation failed : ${err}`);
+  }
 };
 
 await read();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const read = async () => {
-//   if (fs.existsSync(`${__dirname + '/files/fileToRead.txt'}`)) {
-//     fs.readFile(`${__dirname + '/files/fileToRead.txt'}`, { encoding: 'utf-8' }, (err, data) => {
-//       if (err) {
-//         throw new Error(err.message);
-//       } else {
-//         console.log(data);
-//       }
-//     });
-//   } else {
-//     throw new Error('File fileToRead.txt is missing');
-//   }
-// };
-
-// read();
