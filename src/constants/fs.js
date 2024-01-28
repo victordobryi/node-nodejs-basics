@@ -4,4 +4,5 @@ export const WRONG_FILE_NAME = 'wrongFilename.txt';
 export const PROP_FILE_NAME = 'properFilename.md';
 export const REMOVE_FILE_NAME = 'fileToRemove.txt';
 export const READ_FILE_NAME = 'fileToRead.txt';
+export const WRITE_FILE_NAME = 'fileToWrite.txt';
 export const CALC_HASH_FILE_NAME = 'fileToCalculateHashFor.txt';

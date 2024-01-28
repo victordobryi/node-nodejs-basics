@@ -1,25 +1,31 @@
+import fs from 'fs';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { READ_FILE_NAME } from '../constants/fs.js';
+import { stdout } from 'process';
+
 const read = async () => {
-  // Write your code here
+  try {
+    const readFilePath = getAbsPath(import.meta.url, `/files/${READ_FILE_NAME}`);
+
+    const fileStream = fs.createReadStream(readFilePath);
+
+    let data = '';
+
+    fileStream.on('data', (chunk) => (data += chunk));
+
+    fileStream.on('end', () => {
+      stdout.write(data);
+      const endTime = Date.now();
+      console.log(`File read operation completed in ${(endTime - startTime) / 1000} seconds.`);
+    });
+
+    fileStream.on('error', (err) => console.log(`Error while reading file : ${err}`));
+  } catch (err) {
+    console.log(`Operation failed : ${err}`);
+  }
 };
 
+console.log('Start reading file...');
+const startTime = Date.now();
+
 await read();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import { stdout } from 'process';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const read = async () => {
-//   const readableStream = fs.createReadStream(__dirname + '/files/fileToRead.txt', 'utf-8');
-//   let data = '';
-//   readableStream.on('data', (chunk) => (data += chunk));
-//   readableStream.on('end', () => stdout.write(data));
-//   readableStream.on('error', (error) => console.log('Error', error.message));
-// };
-
-// read();

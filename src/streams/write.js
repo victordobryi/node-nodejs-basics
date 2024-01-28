@@ -1,22 +1,18 @@
+import fs from 'fs';
+import { stdin } from 'process';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { WRITE_FILE_NAME } from '../constants/fs.js';
+
 const write = async () => {
-  // Write your code here
+  try {
+    const writeFilePath = getAbsPath(import.meta.url, `/files/${WRITE_FILE_NAME}`);
+
+    const writeableStream = fs.createWriteStream(writeFilePath);
+
+    stdin.pipe(writeableStream);
+  } catch (err) {
+    console.log(`Operation failed : ${err}`);
+  }
 };
 
 await write();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import { stdin } from 'process';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const write = async () => {
-//   const output = fs.createWriteStream(__dirname + '/files/fileToWrite.txt');
-//   stdin.pipe(output);
-// };
-
-// write();

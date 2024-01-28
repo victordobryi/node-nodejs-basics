@@ -9,9 +9,7 @@ const calculateHash = async () => {
     const hash = crypto.createHash('sha256');
     const fileStream = fs.createReadStream(cachHashFilePath);
 
-    fileStream.on('data', (chunk) => {
-      hash.update(chunk);
-    });
+    fileStream.on('data', (chunk) => hash.update(chunk));
 
     fileStream.on('end', () => {
       const hashValue = hash.digest('hex');
@@ -21,9 +19,7 @@ const calculateHash = async () => {
       console.log(`File calculate operation completed in ${(endTime - startTime) / 1000} seconds.`);
     });
 
-    fileStream.on('error', (err) => {
-      console.log(`Error while reading file : ${err}`);
-    });
+    fileStream.on('error', (err) => console.log(`Error while reading file : ${err}`));
   } catch (err) {
     console.log(`Operation failed : ${err}`);
   }
