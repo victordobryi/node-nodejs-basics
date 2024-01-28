@@ -1,28 +1,17 @@
+import fs from 'fs/promises';
+import crypto from 'crypto';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { CALC_HASH_FILE_NAME } from '../constants/fs.js';
+
 const calculateHash = async () => {
-  // Write your code here
+  try {
+    const cachHashFilePath = getAbsPath(import.meta.url, `/files/${CALC_HASH_FILE_NAME}`);
+    const fileData = await fs.readFile(cachHashFilePath, 'utf-8');
+    const hash = crypto.createHash('sha256').update(fileData).digest('hex');
+    console.log(hash);
+  } catch (err) {
+    console.log(`Operation failed : ${err}`);
+  }
 };
 
 await calculateHash();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import crypto from 'crypto';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const calculateHash = async () => {
-//   fs.readFile(__dirname + '/files/fileToCalculateHashFor.txt', 'utf-8', (err, data) => {
-//     if (err) {
-//       throw new Error(err.message);
-//     } else {
-//       const hash = crypto.createHash('sha256').update(data).digest('hex');
-//       console.log(hash);
-//     }
-//   });
-// };
-
-// calculateHash();
