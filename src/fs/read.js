@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { getAbsPath } from '../utils/getAbsPath.js';
-import { READ_FILE_NAME } from '../constants/fs.js';
+import { READ_FILE_NAME } from '../constants/filenames.js';
 
 const read = async () => {
   try {

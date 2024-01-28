@@ -6,3 +6,5 @@ export const REMOVE_FILE_NAME = 'fileToRemove.txt';
 export const READ_FILE_NAME = 'fileToRead.txt';
 export const WRITE_FILE_NAME = 'fileToWrite.txt';
 export const CALC_HASH_FILE_NAME = 'fileToCalculateHashFor.txt';
+export const COMPRESS_FILE_NAME = 'fileToCompress.txt';
+export const ARCHIVE_FILE_NAME = 'archive.gz';

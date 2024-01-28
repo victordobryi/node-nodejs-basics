@@ -1,29 +1,20 @@
+import { ARCHIVE_FILE_NAME, COMPRESS_FILE_NAME } from '../constants/filenames.js';
+import { getAbsPath } from '../utils/getAbsPath.js';
+import { createGzip } from 'zlib';
+import { pipeline } from 'stream/promises';
+import { createReadStream, createWriteStream } from 'fs';
+
 const compress = async () => {
-  // Write your code here
+  try {
+    const sourceFilePath = getAbsPath(import.meta.url, `/files/${COMPRESS_FILE_NAME}`);
+    const destinationFilePath = getAbsPath(import.meta.url, `/files/${ARCHIVE_FILE_NAME}`);
+    const source = createReadStream(sourceFilePath);
+    const destination = createWriteStream(destinationFilePath);
+    const gzip = createGzip();
+    await pipeline(source, gzip, destination);
+  } catch (err) {
+    console.log(`Operation failed : ${err}`);
+  }
 };
 
 await compress();
-
-// CODE FROM NODEJS2022Q2
-
-// import fs from 'fs';
-// import zlib from 'zlib';
-// import { pipeline } from 'stream';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// export const compress = async () => {
-//   const input = fs.createReadStream(__dirname + '/files/fileToCompress.txt');
-//   const output = fs.createWriteStream(__dirname + '/files/archive.gz');
-//   const gzip = zlib.createGzip();
-//   pipeline(input, gzip, output, (err) => {
-//     if (err) {
-//       throw new Error(err.message);
-//     }
-//   });
-// };
-
-// compress();
