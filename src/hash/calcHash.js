@@ -21,8 +21,8 @@ const calculateHash = async () => {
       console.log(`File calculate operation completed in ${(endTime - startTime) / 1000} seconds.`);
     });
 
-    fileStream.on('error', (error) => {
-      reject(error);
+    fileStream.on('error', (err) => {
+      console.log(`Error while reading file : ${err}`);
     });
   } catch (err) {
     console.log(`Operation failed : ${err}`);
