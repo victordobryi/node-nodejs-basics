@@ -10,6 +10,7 @@ const decompress = async () => {
     const destinationFilePath = getAbsPath(import.meta.url, `/files/${COMPRESS_FILE_NAME}`);
     const source = createReadStream(sourceFilePath);
     const destination = createWriteStream(destinationFilePath);
+
     const gzip = createGunzip();
     await pipeline(source, gzip, destination);
   } catch (err) {

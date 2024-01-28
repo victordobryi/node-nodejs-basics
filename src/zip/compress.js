@@ -10,6 +10,7 @@ const compress = async () => {
     const destinationFilePath = getAbsPath(import.meta.url, `/files/${ARCHIVE_FILE_NAME}`);
     const source = createReadStream(sourceFilePath);
     const destination = createWriteStream(destinationFilePath);
+
     const gzip = createGzip();
     await pipeline(source, gzip, destination);
   } catch (err) {
