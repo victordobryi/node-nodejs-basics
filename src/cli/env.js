@@ -4,3 +4,5 @@ const parseEnv = () => {
     value.startsWith('RSS_') ? console.log(`${value}=${values[value]}`) : null;
   }
 };
+
+parseEnv();
