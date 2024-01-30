@@ -21,7 +21,19 @@ const performCalculations = async () => {
         })
       );
     }
-    await Promise.all(resultsArr).then((res) => console.log(res));
+    await Promise.all(resultsArr)
+      .then((res) =>
+        console.log({
+          status: 'resolved',
+          data: res,
+        })
+      )
+      .catch((err) =>
+        console.log({
+          status: 'error',
+          data: null,
+        })
+      );
   } catch (err) {
     console.log(`Operation failed : ${err}`);
   }
