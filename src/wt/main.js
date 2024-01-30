@@ -16,24 +16,21 @@ const performCalculations = async () => {
       resultsArr.push(
         new Promise((res, rej) => {
           worker.on('message', (result) => {
-            res(`${currentNum}th Fibonacci No: ${result}`);
+            res({
+              status: 'resolved',
+              data: result,
+            });
+          });
+          worker.on('error', (error) => {
+            res({
+              status: 'error',
+              data: null,
+            });
           });
         })
       );
     }
-    await Promise.all(resultsArr)
-      .then((res) =>
-        console.log({
-          status: 'resolved',
-          data: res,
-        })
-      )
-      .catch((err) =>
-        console.log({
-          status: 'error',
-          data: null,
-        })
-      );
+    await Promise.all(resultsArr).then((res) => console.log(res));
   } catch (err) {
     console.log(`Operation failed : ${err}`);
   }
