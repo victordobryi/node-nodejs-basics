@@ -1,12 +1,11 @@
 import fs from 'fs/promises';
 import { getAbsPath } from '../utils/getAbsPath.js';
-import { REMOVE_FILE_NAME } from '../constants/fs.js';
+import { REMOVE_FILE_NAME } from '../constants/filenames.js';
 
 const remove = async () => {
   const removeFilePath = getAbsPath(import.meta.url, `/files/${REMOVE_FILE_NAME}`);
   try {
-    await fs.access(removeFilePath);
-    await fs.unlink(removeFilePath);
+    await fs.unlink(removeFilePath, { flag: 'wx+' });
     console.log(`File ${removeFilePath} has been deleted.`);
   } catch (err) {
     console.log(`FS operation failed : ${err}`);

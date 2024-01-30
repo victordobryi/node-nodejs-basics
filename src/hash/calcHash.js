@@ -1,7 +1,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import { getAbsPath } from '../utils/getAbsPath.js';
-import { CALC_HASH_FILE_NAME } from '../constants/fs.js';
+import { CALC_HASH_FILE_NAME } from '../constants/filenames.js';
 
 const calculateHash = async () => {
   try {

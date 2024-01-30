@@ -5,8 +5,7 @@ import { READ_FILE_NAME } from '../constants/filenames.js';
 const read = async () => {
   try {
     const readFilePath = getAbsPath(import.meta.url, `/files/${READ_FILE_NAME}`);
-    await fs.access(readFilePath);
-    const fileContent = await fs.readFile(readFilePath, 'utf-8');
+    const fileContent = await fs.readFile(readFilePath, 'utf-8', { flag: 'wx+' });
     console.log('File content:', fileContent);
   } catch (err) {
     console.log(`FS operation failed : ${err}`);

@@ -1,19 +1,11 @@
 import fs from 'fs/promises';
 import { getAbsPath } from '../utils/getAbsPath.js';
-import { PROP_FILE_NAME, WRONG_FILE_NAME } from '../constants/fs.js';
+import { PROP_FILE_NAME, WRONG_FILE_NAME } from '../constants/filenames.js';
 
 const rename = async () => {
   try {
     const wrongFilePath = getAbsPath(import.meta.url, `/files/${WRONG_FILE_NAME}`);
     const properFilePath = getAbsPath(import.meta.url, `/files/${PROP_FILE_NAME}`);
-
-    console.log(`Checking if '${WRONG_FILE_NAME}' exists...`);
-
-    try {
-      await fs.access(wrongFilePath);
-    } catch (error) {
-      throw new Error(`FS operation failed: File not found ${wrongFilePath}`);
-    }
 
     console.log(`Checking if '${PROP_FILE_NAME}' already exists...`);
 

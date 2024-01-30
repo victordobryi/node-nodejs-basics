@@ -6,31 +6,18 @@ const performCalculations = async () => {
   const workerFilePath = getAbsPath(import.meta.url, `/worker.js`);
 
   try {
-    const corsCount = os.cpus().length;
-    const resultsArr = [];
-    for (let i = 0; i < corsCount; i++) {
-      const currentNum = 10 + i;
-      const worker = new Worker(workerFilePath, {
-        workerData: currentNum,
-      });
-      resultsArr.push(
-        new Promise((res, rej) => {
-          worker.on('message', (result) => {
-            res({
-              status: 'resolved',
-              data: result,
+    await Promise.all(
+      os.cpus().map(
+        (item, i) =>
+          new Promise((res, rej) => {
+            const worker = new Worker(workerFilePath, {
+              workerData: 10 + i,
             });
-          });
-          worker.on('error', (error) => {
-            res({
-              status: 'error',
-              data: null,
-            });
-          });
-        })
-      );
-    }
-    await Promise.all(resultsArr).then((res) => console.log(res));
+            worker.on('message', (result) => res({ status: 'resolved', data: result }));
+            worker.on('error', () => res({ status: 'error', data: null }));
+          })
+      )
+    ).then((res) => console.log(res));
   } catch (err) {
     console.log(`Operation failed : ${err}`);
   }

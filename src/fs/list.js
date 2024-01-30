@@ -8,10 +8,6 @@ const list = async () => {
     try {
       const filesPath = getAbsPath(import.meta.url, currentPath);
 
-      await fs.access(filesPath);
-
-      console.log(`Accessed path: ${filesPath}`);
-
       const items = await fs.readdir(filesPath);
 
       console.log(`Listed items in ${filesPath}: ${items.join(', ')}`);

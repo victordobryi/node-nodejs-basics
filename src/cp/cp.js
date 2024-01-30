@@ -4,7 +4,7 @@ import { getAbsPath } from '../utils/getAbsPath.js';
 const spawnChildProcess = async (args) => {
   const cpFilePath = getAbsPath(import.meta.url, `/files/script.js`);
 
-  const child = fork(cpFilePath, args);
+  fork(cpFilePath, args);
 };
 
 spawnChildProcess(['1', '2', '3']);

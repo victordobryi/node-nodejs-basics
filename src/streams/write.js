@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { stdin } from 'process';
 import { getAbsPath } from '../utils/getAbsPath.js';
-import { WRITE_FILE_NAME } from '../constants/fs.js';
+import { WRITE_FILE_NAME } from '../constants/filenames.js';
 import { pipeline } from 'stream/promises';
 
 const write = async () => {

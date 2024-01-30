@@ -11,8 +11,6 @@ const copy = async () => {
     console.log(`Source directory: ${filesPath}`);
     console.log(`Destination directory: ${filesCopyPath}`);
 
-    await fs.access(filesPath);
-
     try {
       await fs.access(filesCopyPath);
       throw new Error(`FS operation failed: '${filesCopyPath}' already exists.`);
