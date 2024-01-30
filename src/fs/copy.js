@@ -24,9 +24,13 @@ const copy = async () => {
 
     const files = await fs.readdir(filesPath);
 
+    fs.watch(filesPath, 'utf-8', function () {
+      console.log('changed');
+    });
+
     for (const file of files) {
       try {
-        console.log(`Copying file: ${sourceFile} to ${destinationFile}`);
+        console.log(`Copying file: ${filesPath} to ${filesCopyPath}`);
         await fs.copyFile(`${filesPath}/${file}`, `${filesCopyPath}/${file}`);
         console.log(`File copied successfully: ${file}`);
       } catch (err) {
